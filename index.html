@@ -70,7 +70,7 @@
           listContainer.innerHTML = data
             .map(
               (appointment) =>
-                `<li class="d-flex list-group-item">${appointment.name} <span class="badge badge-light ml-auto">${appointment.price}</span></li>`
+                `<li class="d-flex list-group-item">${appointment.name} <span class="badge badge-dark ml-auto">${appointment.price}</span></li>`
             )
             .join("");
         } catch (error) {
