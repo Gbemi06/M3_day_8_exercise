@@ -79,7 +79,7 @@
             </div>
             <div class="form-group">
               <label for="imageInput">Image</label>
-              <input type="file" class="form-control-file" id="imageInput" />
+              <input type="text" class="form-control" id="imageInput" />
             </div>
             <div class="form-group">
               <label for="priceInput">Price</label>
@@ -124,7 +124,6 @@
       const formButton = document.getElementById("form-button");
 
       const deleteButton = document.getElementById("delete-button");
-      console.log(deleteButton);
 
       window.onload = async () => {
         if (agendaId) {
@@ -142,7 +141,7 @@
             (name.value = data.name),
               (description.value = data.description),
               (brand.value = data.brand),
-              (data.imageUrl = image.value),
+              (image.value = data.imageUrl),
               (price.value = data.price),
               (formButton.innerText = "Update"),
               deleteButton.classList.remove("d-none");
@@ -164,11 +163,13 @@
             imageUrl: image.value,
             price: price.value,
           };
+          const endPoint1 = agendaId ? endpoint + agendaId : endpoint;
 
+          const method = agendaId ? "PUT" : "POST";
           const body = JSON.stringify(bodyData);
 
-          let response = await fetch(endpoint, {
-            method: "POST",
+          let response = await fetch(endPoint1, {
+            method: method,
             body: body,
             headers: {
               "Content-Type": "application/json",
@@ -187,6 +188,11 @@
         if (confirm("Do you really want to delete this event")) {
           const response = await fetch(endpoint + agendaId, {
             method: "DELETE",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization:
+                "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MWZhNzAyYTgyZWExZDAwMTViYjA0N2MiLCJpYXQiOjE2NDY4Mjc5MjMsImV4cCI6MTY0ODAzNzUyM30.bv0OPqIsk7sINCAZvAlech3BRJzoVaHtSIYkuklYQ2o",
+            },
           });
 
           if (response.ok) {
