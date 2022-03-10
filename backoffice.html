@@ -90,8 +90,19 @@
                 placeholder="Enter the price"
               />
             </div>
-            <button type="submit" class="btn btn-secondary btn-block mt-3">
+            <button
+              type="submit"
+              class="btn btn-secondary btn-block mt-3"
+              id="form-button"
+            >
               Submit
+            </button>
+            <button
+              type="submit"
+              class="btn btn-dark btn-block mt-3 d-none"
+              id="delete-button"
+            >
+              delete
             </button>
           </form>
         </div>
@@ -99,16 +110,47 @@
     </div>
 
     <script>
+      const agendaId = new URLSearchParams(window.location.search).get("id");
+      console.log(agendaId);
+
       const endpoint = "https://striveschool-api.herokuapp.com/api/product/";
+
       const [name, brand, image, price] =
         document.querySelectorAll("form input");
+
       const description = document.querySelector("form textarea");
 
-      console.log(name);
-      console.log(description);
-      console.log(brand);
-      console.log(image);
-      console.log(image);
+      const formButton = document.getElementById("form-button");
+
+      const deleteButton = document.getElementById("delete-button");
+      console.log(deleteButton);
+
+      window.onload = async () => {
+        if (agendaId) {
+          try {
+            const resp = await fetch(endpoint + agendaId, {
+              method: "PUT",
+
+              headers: {
+                "Content-Type": "application/json",
+                Authorization:
+                  "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MWZhNzAyYTgyZWExZDAwMTViYjA0N2MiLCJpYXQiOjE2NDY4Mjc5MjMsImV4cCI6MTY0ODAzNzUyM30.bv0OPqIsk7sINCAZvAlech3BRJzoVaHtSIYkuklYQ2o",
+              },
+            });
+            const data = await resp.json();
+            console.log(data);
+
+            (data.name = name.value),
+              (data.description = description.value),
+              (data.brand = brand.value),
+              (data.imageUrl = image.value),
+              (data.price = price.value),
+              (formButton.innerText = "Update");
+          } catch (error) {
+            console.log(error);
+          }
+        }
+      };
 
       const handleSubmit = async (e) => {
         e.preventDefault();

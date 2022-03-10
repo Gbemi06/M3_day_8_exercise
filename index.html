@@ -70,7 +70,7 @@
           listContainer.innerHTML = data
             .map(
               (appointment) =>
-                `<li class="d-flex list-group-item">${appointment.name} <span class="badge badge-dark ml-auto">${appointment.price}</span></li>`
+                `<a href="/backoffice.html?id=${appointment._id}"><li class="d-flex list-group-item">${appointment.name} <span class="badge badge-dark ml-auto">${appointment.price}</span></li></a>`
             )
             .join("");
         } catch (error) {
